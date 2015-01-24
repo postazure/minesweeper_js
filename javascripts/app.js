@@ -5,15 +5,27 @@ var mineCount = 70;
 createBoard(boardWidth, boardHeight);
 var mines = layMines(boardWidth, boardHeight, mineCount);
 
-$("#board").on("click", ".block", function () {
-  $(this).addClass("block-clicked");
-  console.log($("#board div.block").index($(this)));
+$("#board").on("click", ".block", function (e) {
   var clickedBlock = $("#board div.block").index($(this));
-  if (($.inArray(clickedBlock, mines) >= 0)) { //its a mine
+
+  if (($.inArray(clickedBlock, mines) >= 0)) {
     //reveal all mines and end game
+    revealMines(mines);
   }else {
     //display neighboring mine count
+    var neighborMineCount = detectMines(clickedBlock);
+    if (neighborMineCount > 0) {
+
+      // $(this).css("height","18px").css("padding-bottom","2px")
+      $(this).text(neighborMineCount);
+    }else {
+      //mass open 0 blocks
+      
+    }
+
   }
+
+  $(this).addClass("block-clicked");
 });
 
 function createBoard(width, height) {
@@ -37,4 +49,30 @@ function layMines(width, height, mineCount) {
     }
   }
   return mineArray;
+}
+
+function revealMines(mineArray) {
+  var blocks = $("#board div.block");
+  for (var i = 0; i < mineArray.length; i++) {
+    var mineIndex = mineArray[i];
+    $(blocks[mineIndex]).addClass("mine").addClass("block-clicked");
+  }
+  $("#board").css("pointer-events", "none"); //freeze board
+}
+
+function detectMines(node) {
+  var neighbors = [
+    node - boardWidth -1, node - boardWidth,  node - boardWidth +1,
+    node - 1,                                 node + 1,
+    node + boardWidth -1, node + boardWidth,  node + boardWidth +1
+  ];
+
+  var minecount = 0;
+  for (var i = 0; i < neighbors.length; i++) {
+    if ($.inArray(neighbors[i], mines) >= 0) {
+      minecount++;
+    }
+  }
+
+  return minecount;
 }

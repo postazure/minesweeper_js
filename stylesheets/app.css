@@ -13,12 +13,13 @@
   display:inline-block;
   width: 20px;
   height: 20px;
-  background: #867970;
+  background-color: #867970;
   outline: 1px solid #3D352A;
-  
+
   /*font*/
   text-align: center;
-  line-height: 22px;
+  line-height: 33px;
+  vertical-align: text-top;
   font-weight: bold;
   color: blue;
 }
@@ -30,8 +31,15 @@
 }
 
 .block-clicked {
-  background: #EFECE5;
+  background-color: #EFECE5;
   -moz-box-shadow:    inset 0 0 5px #000000;
   -webkit-box-shadow: inset 0 0 5px #000000;
   box-shadow:         inset 0 0 5px #000000;
+}
+
+.mine {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url("/bomb.png");
+  background-color: #FF0000;
 }
